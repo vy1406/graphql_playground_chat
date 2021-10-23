@@ -12,7 +12,7 @@ const Chat = ({ user }) => {
 
   useSubscription(messageAddedSubscription, {
     onSubscriptionData: ({client, subscriptionData}) => {
-        client.writeData({data: {
+        client.cache.writeData({data: {
             messages: messages.concat(subscriptionData.data.messageAdded)
         }})
     }
