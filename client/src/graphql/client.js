@@ -20,6 +20,11 @@ const httpLink = ApolloLink.from([
 ]);
 
 const wsLink = new WebSocketLink({ uri: wsUrl, options: {
+  connectionParams: () => ({ // payload that u saw at client + f12 -> Network -> filter by ws
+    accessToken: getAccessToken() 
+    // using connection params as an object, because by the time its invoked, it will get the access token, otherwise,
+    // it wont be fast enought to get the accessToken while the app is loading
+  }),
   lazy: true, // will make the subscription the first time its needed. 
   reconnect: true
 }})
