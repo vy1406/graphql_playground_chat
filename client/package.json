@@ -2,7 +2,7 @@
   "name": "chat-client",
   "private": true,
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts start SKIP_PREFLIGHT_CHECK=true",
     "build": "react-scripts build"
   },
   "dependencies": {
