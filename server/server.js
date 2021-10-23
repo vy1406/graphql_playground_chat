@@ -20,9 +20,16 @@ app.use(cors(), express.json(), expressJwt({
 const typeDefs = fs.readFileSync('./schema.graphql', {encoding: 'utf8'});
 const resolvers = require('./resolvers');
 
-function context({req}) {
-  if (req && req.user) {
+function context({ req, connection }) {
+  // the reason we put 2 ifs, is because the context funciton will recieve 2 different
+  // objects based whether its ws or httpRequest, so we have to 
+  // differ them when using authentication process from client.
+  if (req && req.user) { // FOR httpRequest
     return {userId: req.user.sub};
+  }
+  if ( connection && connection.context && connection.context.accessToken) { // FOR WS
+    const decodedToken = jwt.verify(connection.context.accessToken, jwtSecret);
+    return { userId: decodedToken.sub }
   }
   return {};
 }
